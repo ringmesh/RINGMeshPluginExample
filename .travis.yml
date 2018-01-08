@@ -3,10 +3,14 @@ sudo: false
 
 os: linux
 
+install:
+  - wget http://ringmesh.org/dowload/RINGMesh-master-Linux.tar.gz
+  - tar xzf RINGMesh-master-Linux.tar.gz
+
 script:
   - mkdir build
   - cd build
-  - CXX=g++ CC=gcc cmake ..
+  - CXX=g++ CC=gcc cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
   - cd Debug
   - cmake --build . -- -j2
   - ctest --output-on-failure -j2
