@@ -33,7 +33,19 @@
  *     FRANCE
  */
 
-#pragma once
+#include <example/hello_world.h>
 
-#include <ringmesh/basic/common.h>
-#include <example/export.h>
+#include <ringmesh/geomodel/core/geomodel.h>
+#include <ringmesh/geomodel/core/geomodel_api.h>
+
+#include <ringmesh/io/io.h>
+
+namespace RINGMeshPluginExample
+{
+    void hello_geomodel( const std::string& filename )
+    {
+        RINGMesh::GeoModel3D geomodel;
+        RINGMesh::geomodel_load( geomodel, filename );
+        RINGMesh::print_geomodel_mesh_stats( geomodel );
+    }
+} // RINGMeshPluginExample

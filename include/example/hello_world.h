@@ -35,5 +35,9 @@
 
 #pragma once
 
-#include <ringmesh/basic/common.h>
-#include <example/export.h>
+#include <example/common.h>
+
+namespace RINGMeshPluginExample
+{
+    void example_api hello_geomodel( const std::string& filename );
+} // RINGMeshPluginExample

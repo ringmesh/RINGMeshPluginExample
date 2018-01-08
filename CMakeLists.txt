@@ -46,6 +46,12 @@ set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo CACHE TYPE INTERNAL F
 set(RINGMesh_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/../RINGMesh/build/Release" 
     CACHE PATH "Path to RINGMesh install directory (mandatory dependency)")
 
+# Download single data file
+file(DOWNLOAD 
+    https://raw.githubusercontent.com/ringmesh/RINGMeshData/master/modelA1.ml
+    ${CMAKE_SOURCE_DIR}/data/modelA1.ml
+)
+
 #---------------------------------------------------------------------------------
 # Optional section used to simplify multiple project configuration
 # Generate configuration directories for single-configuration generators (Make)
@@ -93,7 +99,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Define version number
 # It is then exported to the configuration file
-set(RINGMeshPluginExample_VERSION_MAJOR 5)
+set(RINGMeshPluginExample_VERSION_MAJOR 1)
 set(RINGMeshPluginExample_VERSION_MINOR 0)
 set(RINGMeshPluginExample_VERSION_PATCH 0)
 set(RINGMeshPluginExample_VERSION 
@@ -116,7 +122,7 @@ set(CMAKE_INSTALL_RPATH ".")
 # which point to directories outside the build tree to the install RPATH
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-# Exports RINGMesh target
+# Exports RINGMeshPluginExample target
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 configure_package_config_file(
@@ -149,15 +155,22 @@ set(example_source_dir ${PROJECT_SOURCE_DIR}/src/example)
 target_sources(example
     PRIVATE
         "${example_source_dir}/common.cpp"
+        "${example_source_dir}/hello_world.cpp"
     PRIVATE # Could be PUBLIC from CMake 3.3
         "${example_include_dir}/common.h"
+        "${example_include_dir}/hello_world.h"
 )
 
-target_link_libraries(example PUBLIC RINGMesh::basic)
+target_link_libraries(example 
+    PUBLIC 
+        RINGMesh::basic
+        RINGMesh::geomodel_core
+        RINGMesh::io
+)
 
 export(TARGETS example 
     NAMESPACE RINGMeshPluginExample:: 
-    FILE cmake/RINGMesh_${target_name}_target.cmake
+    FILE cmake/RINGMesh_example_target.cmake
 )
 generate_export_header(example 
     EXPORT_MACRO_NAME example_api 
