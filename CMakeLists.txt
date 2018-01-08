@@ -141,52 +141,10 @@ install(DIRECTORY include/example DESTINATION include)
 find_package(RINGMesh REQUIRED PATHS ${RINGMesh_INSTALL_PREFIX}/cmake)
 
 # Configure project library
-add_library(example SHARED "")
-set_target_properties(example PROPERTIES OUTPUT_NAME RINGMesh_example FOLDER "Libraries")
-target_include_directories(example
-    PUBLIC   
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
-        $<INSTALL_INTERFACE:include>
-)
+add_subdirectory(src/example)
 
-set(example_include_dir ${PROJECT_SOURCE_DIR}/include/example)
-set(example_source_dir ${PROJECT_SOURCE_DIR}/src/example)
-target_sources(example
-    PRIVATE
-        "${example_source_dir}/common.cpp"
-        "${example_source_dir}/hello_world.cpp"
-    PRIVATE # Could be PUBLIC from CMake 3.3
-        "${example_include_dir}/common.h"
-        "${example_include_dir}/hello_world.h"
-)
-
-target_link_libraries(example 
-    PUBLIC 
-        RINGMesh::basic
-        RINGMesh::geomodel_core
-        RINGMesh::io
-)
-
-export(TARGETS example 
-    NAMESPACE RINGMeshPluginExample:: 
-    FILE cmake/RINGMesh_example_target.cmake
-)
-generate_export_header(example 
-    EXPORT_MACRO_NAME example_api 
-    EXPORT_FILE_NAME ${PROJECT_BINARY_DIR}/example/export.h
-)
-install(TARGETS example
-    EXPORT example
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-)
-install(EXPORT example
-    FILE RINGMesh_example_target.cmake
-    NAMESPACE RINGMeshPluginExample::
-    DESTINATION cmake
-)
+# Configure testing framework
+add_subdirectory(tests)
 
 #------------------------------------------------------------------------------------------------
 # Configure CPack
