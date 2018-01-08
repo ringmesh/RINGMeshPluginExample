@@ -4,7 +4,7 @@ sudo: false
 os: linux
 
 install:
-  - wget http://ringmesh.org/dowload/RINGMesh-master-Linux.tar.gz
+  - wget http://ringmesh.org/download/RINGMesh-master-Linux.tar.gz
   - tar xzf RINGMesh-master-Linux.tar.gz
 
 script:
