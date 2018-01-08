@@ -1,0 +1,13 @@
+language: cpp
+sudo: false
+
+os: linux
+
+script:
+  - mkdir build
+  - cd build
+  - CXX=g++ CC=gcc cmake ..
+  - cd Debug
+  - cmake --build . -- -j2
+  - ctest --output-on-failure -j2
+
