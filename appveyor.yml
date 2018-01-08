@@ -1,0 +1,29 @@
+environment:
+  MSBUILD_FLAGS: /verbosity:minimal /maxcpucount /nologo
+  matrix:
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+    GENERATOR: "Visual Studio 12 2013 Win64"
+    RINGMESH_PACKAGE: RINGMesh-master-Win64-vs2013
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    GENERATOR: "Visual Studio 14 2015 Win64"
+    RINGMESH_PACKAGE: RINGMesh-master-Win64-vs2015
+
+platform: x64
+
+matrix:
+  fast_finish: true
+
+configuration: Debug
+
+install:
+  - curl -fsS -o %RINGMESH_PACKAGE%.zip http://ringmesh.org/download/%RINGMESH_PACKAGE%.zip
+  - 7z x %RINGMESH_PACKAGE%.zip
+
+build_script:
+  - mkdir build
+  - cd build
+  - cmake -G "%GENERATOR%" -DRINGMesh_INSTALL_PREFIX:PATH=%APPVEYOR_BUILD_FOLDER%/%RINGMESH_PACKAGE% ..
+  - cmake --build . --config %configuration% -- %MSBUILD_FLAGS%
+
+test_script:
+  - cmake -E env CTEST_OUTPUT_ON_FAILURE=1 cmake --build . --target RUN_TESTS --config %configuration% -- %MSBUILD_FLAGS%
