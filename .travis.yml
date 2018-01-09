@@ -6,10 +6,13 @@ os: linux
 install:
   - wget http://ringmesh.org/download/RINGMesh-master-Linux.tar.gz
   - tar xzf RINGMesh-master-Linux.tar.gz
+  - ls
+  - ls RINGMesh-master-Linux
 
 script:
   - mkdir build
   - cd build
+  - ls $TRAVIS_BUILD_DIR/RINGMesh-master-Linux
   - CXX=g++ CC=gcc cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
   - cd Debug
   - cmake --build . -- -j2
