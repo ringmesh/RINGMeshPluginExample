@@ -43,7 +43,7 @@ cmake_minimum_required(VERSION 3.1)
 set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo CACHE TYPE INTERNAL FORCE)
 
 # RINGMesh install directory path
-set(RINGMesh_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/../RINGMesh/build/Release" 
+set(RINGMesh_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/../RINGMesh/build/Release/ringmesh" 
     CACHE PATH "Path to RINGMesh install directory (mandatory dependency)")
 
 # Download single data file
@@ -77,7 +77,6 @@ if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
                 -G ${CMAKE_GENERATOR}
                 -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
                 -DCMAKE_BUILD_TYPE=${config}
-                -DGLOBAL_BINARY_DIR=${PROJECT_BINARY_DIR}
                 -DRINGMesh_INSTALL_PREFIX:PATH=${RINGMesh_INSTALL_PREFIX}
                 WORKING_DIRECTORY ${project_binary_dir_config})
       endforeach()
@@ -127,18 +126,18 @@ include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 configure_package_config_file(
     cmake/RINGMeshPluginExampleConfig.cmake.in 
-    ${CMAKE_BINARY_DIR}/cmake/RINGMeshPluginExampleConfig.cmake
-    INSTALL_DESTINATION cmake
+    ${CMAKE_BINARY_DIR}/lib/cmake/RINGMeshPluginExample/RINGMeshPluginExampleConfig.cmake
+    INSTALL_DESTINATION lib/cmake/RINGMeshPluginExample
     PATH_VARS RINGMesh_INSTALL_PREFIX
 )
 install(
-    FILES ${CMAKE_BINARY_DIR}/cmake/RINGMeshPluginExampleConfig.cmake 
-    DESTINATION cmake
+    FILES ${CMAKE_BINARY_DIR}/lib/cmake/RINGMeshPluginExample/RINGMeshPluginExampleConfig.cmake 
+    DESTINATION lib/cmake/RINGMeshPluginExample
 )
 install(DIRECTORY include/example DESTINATION include)
 
 # Import RINGMesh targets
-find_package(RINGMesh REQUIRED PATHS ${RINGMesh_INSTALL_PREFIX}/cmake)
+find_package(RINGMesh REQUIRED PATHS ${RINGMesh_INSTALL_PREFIX}/lib/cmake/RINGMesh)
 
 # Configure project library
 add_subdirectory(src/example)
