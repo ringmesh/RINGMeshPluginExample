@@ -126,13 +126,13 @@ include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 configure_package_config_file(
     cmake/RINGMeshPluginExampleConfig.cmake.in 
-    ${CMAKE_BINARY_DIR}/lib/cmakeRINGMeshPluginExample/RINGMeshPluginExampleConfig.cmake
-    INSTALL_DESTINATION lib/cmakeRINGMeshPluginExample
+    ${CMAKE_BINARY_DIR}/lib/cmake/RINGMeshPluginExample/RINGMeshPluginExampleConfig.cmake
+    INSTALL_DESTINATION lib/cmake/RINGMeshPluginExample
     PATH_VARS RINGMesh_INSTALL_PREFIX
 )
 install(
-    FILES ${CMAKE_BINARY_DIR}/lib/cmakeRINGMeshPluginExample/RINGMeshPluginExampleConfig.cmake 
-    DESTINATION lib/cmakeRINGMeshPluginExample
+    FILES ${CMAKE_BINARY_DIR}/lib/cmake/RINGMeshPluginExample/RINGMeshPluginExampleConfig.cmake 
+    DESTINATION lib/cmake/RINGMeshPluginExample
 )
 install(DIRECTORY include/example DESTINATION include)
 
