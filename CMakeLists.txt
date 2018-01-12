@@ -143,6 +143,7 @@ find_package(RINGMesh REQUIRED PATHS ${RINGMesh_INSTALL_PREFIX}/lib/cmake/RINGMe
 add_subdirectory(src/example)
 
 # Configure testing framework
+enable_testing()
 add_subdirectory(tests)
 
 #------------------------------------------------------------------------------------------------
