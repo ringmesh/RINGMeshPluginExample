@@ -9,11 +9,15 @@ install:
   - ls
   - ls RINGMesh-master-Linux
 
+compiler:
+  - clang
+  - gcc
+
 script:
   - mkdir build
   - cd build
   - ls $TRAVIS_BUILD_DIR/RINGMesh-master-Linux
-  - CXX=g++ CC=gcc cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
+  - cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
   - cd Debug
   - cmake --build . -- -j2
   - ctest --output-on-failure -j2
