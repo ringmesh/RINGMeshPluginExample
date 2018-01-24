@@ -1,20 +1,52 @@
 language: cpp
 sudo: false
 
-os: linux
+matrix:
+  include:
+    - os: linux
+      install:
+        - wget http://ringmesh.org/download/RINGMesh-master-Linux.tar.gz
+        - tar xzf RINGMesh-master-Linux.tar.gz
 
-install:
-  - wget http://ringmesh.org/download/RINGMesh-master-Linux.tar.gz
-  - tar xzf RINGMesh-master-Linux.tar.gz
+      compiler:
+        - clang
+        - gcc
 
-compiler:
-  - clang
-  - gcc
+      script:
+        - mkdir build
+        - cd build
+        - cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
+        - cd Debug
+        - cmake --build . -- -j2
+        - ctest --output-on-failure -j2
+        
+    - os: osx
+      install:
+        - wget http://ringmesh.org/download/RINGMesh-master-Darwin.tar.gz
+        - tar xzf RINGMesh-master-Darwin.tar.gz
 
-script:
-  - mkdir build
-  - cd build
-  - cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
-  - cd Debug
-  - cmake --build . -- -j2
-  - ctest --output-on-failure -j2
+      compiler:
+        - clang
+
+      script:
+        - mkdir build
+        - cd build
+        - cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Darwin ..
+        - cd Debug
+        - cmake --build . -- -j2
+        - ctest --output-on-failure -j2
+        
+    - os: osx
+      env:
+        - TEST="Xcode Check"
+      install:
+        - wget http://ringmesh.org/download/RINGMesh-master-Darwin.tar.gz
+        - tar xzf RINGMesh-master-Darwin.tar.gz
+
+      script:
+        - mkdir build
+        - cd build
+        - cmake -G Xcode -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Darwin ..
+        - cd Debug
+        - cmake --build . --config Debug
+        - cmake -E env CTEST_OUTPUT_ON_FAILURE=1 cmake --build . --target RUN_TESTS --config Debug
