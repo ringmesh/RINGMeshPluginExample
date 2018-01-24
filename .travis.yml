@@ -3,35 +3,47 @@ sudo: false
 
 matrix:
   include:
-    - os: linux
+    - os: linux      
+      env:
+        - TEST="Clang Check"
       install:
         - wget http://ringmesh.org/download/RINGMesh-master-Linux.tar.gz
         - tar xzf RINGMesh-master-Linux.tar.gz
 
-      compiler:
-        - clang
-        - gcc
+      script:
+        - mkdir build
+        - cd build
+        - CXX=clang++ CC=clang cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
+        - cd Debug
+        - cmake --build . -- -j2
+        - ctest --output-on-failure -j2
+        
+    - os: linux      
+      env:
+        - TEST="GCC Check"
+      install:
+        - wget http://ringmesh.org/download/RINGMesh-master-Linux.tar.gz
+        - tar xzf RINGMesh-master-Linux.tar.gz
 
       script:
         - mkdir build
         - cd build
-        - cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
+        - CXX=g++ CC=gcc cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Linux ..
         - cd Debug
         - cmake --build . -- -j2
         - ctest --output-on-failure -j2
         
     - os: osx
+      env:
+        - TEST="Clang Check"
       install:
         - wget http://ringmesh.org/download/RINGMesh-master-Darwin.tar.gz
         - tar xzf RINGMesh-master-Darwin.tar.gz
 
-      compiler:
-        - clang
-
       script:
         - mkdir build
         - cd build
-        - cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Darwin ..
+        - CXX=clang++ CC=clang cmake -DRINGMesh_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/RINGMesh-master-Darwin ..
         - cd Debug
         - cmake --build . -- -j2
         - ctest --output-on-failure -j2
