@@ -34,6 +34,7 @@ matrix:
         - ctest --output-on-failure -j2
         
     - os: osx
+      if: branch = master
       env:
         - TEST="Clang Check"
       install:
@@ -49,6 +50,7 @@ matrix:
         - ctest --output-on-failure -j2
         
     - os: osx
+      if: branch = master
       env:
         - TEST="Xcode Check"
       install:
