@@ -41,6 +41,18 @@ set(test_config_file_in ${TEST_DIRECTORY}/example_tests_config.h.in)
 set(test_config_file ${PROJECT_BINARY_DIR}/example/example_tests_config.h)
 configure_file(${test_config_file_in} ${test_config_file})
 
+if(WIN32)
+    add_custom_target(copy_dll ALL)
+    get_target_property(dll_path RINGMesh::basic LOCATION)
+    get_filename_component(${dll_path} ${dll_path} DIRECTORY)
+    message ("${dll_path}")
+    add_custom_command(TARGET copy_dll POST_BUILD
+        COMMAND  "${CMAKE_COMMAND}" -E copy_directory
+            "${dll_path}"
+            "${PROJECT_BINARY_DIR}/bin/tests"
+            COMMENT "Copy RINGMesh dll")
+endif()
+
 function(add_ringmesh_test exe_path)    
     get_filename_component(exe_name ${exe_path} NAME_WE)
 
@@ -66,6 +78,10 @@ function(add_ringmesh_test exe_path)
     add_test(NAME ${exe_name} COMMAND ${exe_name})
     set_target_properties(${exe_name} PROPERTIES 
         RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/tests)
+
+    if(WIN32)
+        add_dependencies(copy_dll ${exe_name})
+    endif()      
 endfunction()
 
 add_ringmesh_test(test-hello-geomodel.cpp)
