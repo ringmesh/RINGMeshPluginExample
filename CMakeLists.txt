@@ -136,6 +136,9 @@ install(
 )
 install(DIRECTORY include/example DESTINATION include)
 
+# Import RINGMesh targets
+find_package(RINGMesh REQUIRED PATHS ${RINGMesh_INSTALL_PREFIX}/lib/cmake/RINGMesh)
+
 
 #if(WIN32)
     add_custom_target(copy_dll ALL)
@@ -148,9 +151,6 @@ install(DIRECTORY include/example DESTINATION include)
             "${PROJECT_BINARY_DIR}/bin/tests"
             COMMENT "Copy RINGMesh dll")
 #endif()
-
-# Import RINGMesh targets
-find_package(RINGMesh REQUIRED PATHS ${RINGMesh_INSTALL_PREFIX}/lib/cmake/RINGMesh)
 
 # Configure project library
 add_subdirectory(src/example)
