@@ -41,7 +41,7 @@ set(test_config_file_in ${TEST_DIRECTORY}/example_tests_config.h.in)
 set(test_config_file ${PROJECT_BINARY_DIR}/example/example_tests_config.h)
 configure_file(${test_config_file_in} ${test_config_file})
 
-if(WIN32)
+#if(WIN32)
     add_custom_target(copy_dll ALL)
     get_target_property(dll_path RINGMesh::basic LOCATION)
     get_filename_component(dll_dir ${dll_path} DIRECTORY)
@@ -51,7 +51,7 @@ if(WIN32)
             "${dll_dir}"
             "${PROJECT_BINARY_DIR}/bin/tests"
             COMMENT "Copy RINGMesh dll")
-endif()
+#endif()
 
 function(add_ringmesh_test exe_path)    
     get_filename_component(exe_name ${exe_path} NAME_WE)
@@ -62,9 +62,9 @@ function(add_ringmesh_test exe_path)
     foreach(dependency ${ARGN})
         target_link_libraries(${exe_name} PRIVATE ${dependency})
     endforeach()
-    if(WIN32)
+ #   if(WIN32)
         add_dependencies(copy_dll ${exe_name})
-    endif()  
+  #  endif()  
     
     # Add the project to a folder of projects for the tests
     if(APPLE)
