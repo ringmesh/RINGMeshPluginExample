@@ -44,11 +44,12 @@ configure_file(${test_config_file_in} ${test_config_file})
 if(WIN32)
     get_target_property(dll_path RINGMesh::basic LOCATION)
     get_filename_component(dll_dir ${dll_path} DIRECTORY)
-    message ("${dll_dir}")
+    message ("dll_dir = ${dll_dir}")
+	message ("to = ${PROJECT_BINARY_DIR}/bin/tests")
     add_custom_target(copy_dll ALL
         COMMAND  "${CMAKE_COMMAND}" -E copy_directory
             "${dll_dir}"
-            "${PROJECT_BINARY_DIR}/bin/tests"
+            "${PROJECT_BINARY_DIR}/bin/tests/$<CONFIGURATION>"
             COMMENT "Copy RINGMesh dll")
 endif()
 
