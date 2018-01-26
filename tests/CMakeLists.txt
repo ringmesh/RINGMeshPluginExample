@@ -42,11 +42,10 @@ set(test_config_file ${PROJECT_BINARY_DIR}/example/example_tests_config.h)
 configure_file(${test_config_file_in} ${test_config_file})
 
 if(WIN32)
-    add_custom_target(copy_dll ALL)
     get_target_property(dll_path RINGMesh::basic LOCATION)
     get_filename_component(dll_dir ${dll_path} DIRECTORY)
     message ("${dll_dir}")
-    add_custom_command(TARGET copy_dll POST_BUILD
+    add_custom_target(copy_dll ALL
         COMMAND  "${CMAKE_COMMAND}" -E copy_directory
             "${dll_dir}"
             "${PROJECT_BINARY_DIR}/bin/tests"
