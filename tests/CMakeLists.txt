@@ -62,6 +62,9 @@ function(add_ringmesh_test exe_path)
     foreach(dependency ${ARGN})
         target_link_libraries(${exe_name} PRIVATE ${dependency})
     endforeach()
+    if(WIN32)
+        add_dependencies(copy_dll ${exe_name})
+    endif()  
     
     # Add the project to a folder of projects for the tests
     if(APPLE)
@@ -78,10 +81,6 @@ function(add_ringmesh_test exe_path)
     add_test(NAME ${exe_name} COMMAND ${exe_name})
     set_target_properties(${exe_name} PROPERTIES 
         RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/tests)
-
-    if(WIN32)
-        add_dependencies(copy_dll ${exe_name})
-    endif()      
 endfunction()
 
 add_ringmesh_test(test-hello-geomodel.cpp)
