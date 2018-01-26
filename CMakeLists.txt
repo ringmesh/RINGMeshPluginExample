@@ -136,6 +136,19 @@ install(
 )
 install(DIRECTORY include/example DESTINATION include)
 
+
+#if(WIN32)
+    add_custom_target(copy_dll ALL)
+    get_target_property(dll_path RINGMesh::basic LOCATION)
+    get_filename_component(dll_dir ${dll_path} DIRECTORY)
+    message ("${dll_dir}")
+    add_custom_command(TARGET copy_dll POST_BUILD
+        COMMAND  "${CMAKE_COMMAND}" -E copy_directory
+            "${dll_dir}"
+            "${PROJECT_BINARY_DIR}/bin/tests"
+            COMMENT "Copy RINGMesh dll")
+#endif()
+
 # Import RINGMesh targets
 find_package(RINGMesh REQUIRED PATHS ${RINGMesh_INSTALL_PREFIX}/lib/cmake/RINGMesh)
 
