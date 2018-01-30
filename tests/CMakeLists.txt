@@ -45,8 +45,6 @@ if(WIN32)
     add_custom_target(copy_dll ALL)
     get_target_property(dll_path RINGMesh::basic LOCATION)
     get_filename_component(dll_dir ${dll_path} DIRECTORY)
-    message ("dll_dir = ${dll_dir}")
-	message ("to = ${PROJECT_BINARY_DIR}/bin/tests/$<CONFIGURATION>")
     add_custom_command(TARGET copy_dll POST_BUILD 
         COMMAND  "${CMAKE_COMMAND}" -E copy_directory
             "${dll_dir}"
@@ -57,8 +55,6 @@ if(WIN32)
             "${PROJECT_BINARY_DIR}/bin/$<CONFIGURATION>"
             "${PROJECT_BINARY_DIR}/bin/tests/$<CONFIGURATION>"
             COMMENT "Copy RINGMeshExample dll")
-	message ("dll_dir = ${PROJECT_BINARY_DIR}/bin/$<CONFIGURATION>")
-	message ("to = ${PROJECT_BINARY_DIR}/bin/tests/$<CONFIGURATION>")
 endif()
 
 function(add_ringmesh_test exe_path)    
