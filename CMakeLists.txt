@@ -47,10 +47,14 @@ set(RINGMesh_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/../RINGMesh/build/Release/ringm
     CACHE PATH "Path to RINGMesh install directory (mandatory dependency)")
 
 # Download single data file
-file(DOWNLOAD 
-    https://raw.githubusercontent.com/ringmesh/RINGMeshData/master/modelA1.ml
-    ${CMAKE_SOURCE_DIR}/data/modelA1.ml
-)
+set(data_file ${CMAKE_SOURCE_DIR}/data/modelA1.ml)
+if(NOT EXISTS ${data_file})
+    file(DOWNLOAD
+        https://raw.githubusercontent.com/ringmesh/RINGMeshData/master/modelA1.ml
+        ${data_file}
+        SHOW_PROGRESS
+    )
+endif()
 
 #---------------------------------------------------------------------------------
 # Optional section used to simplify multiple project configuration
