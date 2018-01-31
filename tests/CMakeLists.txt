@@ -45,7 +45,7 @@ if(WIN32)
     add_custom_target(copy_dll ALL)
     get_target_property(dll_path RINGMesh::basic LOCATION)
     get_filename_component(dll_dir ${dll_path} DIRECTORY)
-    add_custom_command(TARGET copy_dll POST_BUILD 
+    add_custom_command(TARGET copy_dll PRE_BUILD 
         COMMAND  "${CMAKE_COMMAND}" -E copy_directory
             "${dll_dir}"
             "${PROJECT_BINARY_DIR}/bin/tests/$<CONFIGURATION>"
