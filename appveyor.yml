@@ -13,7 +13,7 @@ platform: x64
 matrix:
   fast_finish: true
 
-configuration: Debug
+configuration: Release
 
 install:
   - curl -fsS -o %RINGMESH_PACKAGE%.zip http://ringmesh.org/download/%RINGMESH_PACKAGE%.zip
